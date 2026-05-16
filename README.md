@@ -125,7 +125,24 @@ The default config provides four ready-made profiles: `default`, `flat`, `mini`,
 
 ### License
 
-MIT.
+The package code is released under the **MIT License**. See [`LICENSE`](LICENSE) for the full text.
+
+### Acknowledgements
+
+This package is a Bopomofo (注音符號) adaptation of
+**[mews/captcha](https://github.com/mewebstudio/captcha)** by Muharrem ERİN
+(MeWebStudio), used under the MIT License. The architecture
+(DI signature, persistence schema, validator / route / helper conventions)
+is inherited from mews/captcha; this fork adapts it to multi-byte Bopomofo
+input and adds one-shot validation, timing-leak protection in `check_api()`,
+and per-route throttling.
+
+The bundled `assets/fonts/NotoSansTC-VariableFont_wght.ttf` is
+© Google and licensed separately under the
+**[SIL Open Font License v1.1](https://scripts.sil.org/OFL)** — full text at
+[`assets/fonts/OFL.txt`](assets/fonts/OFL.txt). OFL § 1 explicitly permits
+bundling the font with software under a different licence, so the MIT
+licence on the code is unaffected.
 
 ---
 
@@ -245,4 +262,17 @@ $request->validate([
 
 ### 授權
 
-MIT。
+本套件的 code 採 **MIT License**。完整條款見 [`LICENSE`](LICENSE)。
+
+### 致謝
+
+本套件是 **[mews/captcha](https://github.com/mewebstudio/captcha)**（作者
+Muharrem ERİN / MeWebStudio）的注音符號衍生版本，並依其 MIT 授權繼續釋出。
+原版的核心架構（DI 簽章、Session/Cache 儲存格式、Validator / Route / Helper
+命名慣例）來自 mews/captcha；本 fork 主要做的事是換成多 byte 注音字元、
+加入一次性驗證、`check_api()` 的時序洩漏防護、以及路由級的 throttle。
+
+打包進來的字型 `assets/fonts/NotoSansTC-VariableFont_wght.ttf` 是
+Google 的 Noto Sans TC，採 **[SIL Open Font License v1.1](https://scripts.sil.org/OFL)**
+授權（完整條款見 [`assets/fonts/OFL.txt`](assets/fonts/OFL.txt)）。OFL § 1
+明文允許將字型打包進不同授權的軟體裡，所以這個套件的 code 仍為 MIT。

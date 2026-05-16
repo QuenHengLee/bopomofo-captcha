@@ -1,6 +1,11 @@
 MIT License
 
 Copyright (c) 2026 QuenHengLee
+Copyright (c) 2015 MeWebStudio - Muharrem ERİN
+
+This software is a Taiwanese-input (Bopomofo / 注音符號) derivative of
+mews/captcha (https://github.com/mewebstudio/captcha), used and modified
+under the terms of the MIT License reproduced below.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +24,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+The bundled `assets/fonts/NotoSansTC-VariableFont_wght.ttf` is not covered
+by the MIT License above. It is © Google and licensed separately under the
+SIL Open Font License v1.1; see `assets/fonts/OFL.txt` for full terms.
