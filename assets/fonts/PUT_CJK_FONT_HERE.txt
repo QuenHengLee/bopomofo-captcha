@@ -1,0 +1,18 @@
+Drop a TTF or OTF font file into this folder that includes the
+Bopomofo Unicode block (U+3105 .. U+3129).
+
+Recommended free options:
+  - Noto Sans TC          https://fonts.google.com/noto/specimen/Noto+Sans+TC
+  - Source Han Sans TC    https://github.com/adobe-fonts/source-han-sans
+  - jf-openhuninn         https://justfont.com/huninn/
+
+Tip: to keep the package small, you can subset the font to just the
+37 Bopomofo glyphs with pyftsubset:
+
+  pyftsubset NotoSansTC-Regular.otf \
+      --unicodes=U+3105-3129 \
+      --output-file=NotoSansTC-Bopomo.ttf \
+      --flavor=woff2  # (or omit --flavor for raw .ttf)
+
+The package will auto-discover any .ttf / .otf file in this folder
+at runtime via Filesystem::files().

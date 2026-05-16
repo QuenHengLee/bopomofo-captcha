@@ -1,0 +1,62 @@
+{
+    "name": "hengineer/bopomofo-captcha",
+    "description": "Bopomofo (注音符號) CAPTCHA for Laravel — a Taiwanese-input adaptation of mews/captcha.",
+    "homepage": "https://github.com/QuenHengLee/bopomofo-captcha",
+    "authors": [
+        {
+            "name": "QuenHengLee",
+            "email": "haha89725@gmail.com",
+            "homepage": "https://github.com/QuenHengLee",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/QuenHengLee/bopomofo-captcha/issues",
+        "source": "https://github.com/QuenHengLee/bopomofo-captcha"
+    },
+    "keywords": ["laravel", "captcha", "bopomofo", "zhuyin", "注音", "taiwan"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*",
+        "illuminate/config": "^10.0|^11.0|^12.0",
+        "illuminate/filesystem": "^10.0|^11.0|^12.0",
+        "illuminate/hashing": "^10.0|^11.0|^12.0",
+        "illuminate/session": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/validation": "^10.0|^11.0|^12.0",
+        "intervention/image": "^3.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hengineer\\BopomofoCaptcha\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hengineer\\BopomofoCaptcha\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hengineer\\BopomofoCaptcha\\BopomofoCaptchaServiceProvider"
+            ],
+            "aliases": {
+                "BopomofoCaptcha": "Hengineer\\BopomofoCaptcha\\Facades\\BopomofoCaptcha"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
