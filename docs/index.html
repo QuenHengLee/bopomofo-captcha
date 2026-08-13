@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bopomofo Captcha · 注音符號驗證碼</title>
+<meta name="description" content="Laravel CAPTCHA package that renders Taiwan Bopomofo (注音符號) glyphs — session & stateless API modes.">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --text: #1f2328;
+    --muted: #59636e;
+    --accent: #b3452c;
+    --accent-soft: #fdf0ec;
+    --border: #e4e0da;
+    --code-bg: #f4f2ef;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 6px 24px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12100e;
+      --surface: #1c1917;
+      --text: #ece8e3;
+      --muted: #a39d95;
+      --accent: #e8825f;
+      --accent-soft: #2a1d17;
+      --border: #33302c;
+      --code-bg: #24211e;
+      --shadow: 0 1px 3px rgba(0,0,0,.4), 0 6px 24px rgba(0,0,0,.3);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    line-height: 1.65;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.25rem 4rem; }
+  header { text-align: center; margin-bottom: 3rem; }
+  .zhuyin-badge {
+    display: inline-block;
+    font-size: 2.6rem;
+    letter-spacing: .35em;
+    padding: .3em .6em .3em .95em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1rem;
+  }
+  h1 { font-size: 2rem; margin-bottom: .4rem; }
+  .tagline { color: var(--muted); font-size: 1.06rem; max-width: 620px; margin: 0 auto; }
+  .cta { margin-top: 1.6rem; display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: .55em 1.25em; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: .95rem;
+    border: 1px solid var(--border); color: var(--text); background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  section { margin-top: 3rem; }
+  h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  h2 span.en { color: var(--muted); font-weight: 400; font-size: .95rem; margin-left: .6em; }
+  .samples { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .samples figure {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem; box-shadow: var(--shadow); flex: 1 1 220px; text-align: center;
+  }
+  .samples img { max-width: 100%; height: auto; border-radius: 6px; image-rendering: -webkit-optimize-contrast; }
+  .samples figcaption { color: var(--muted); font-size: .85rem; margin-top: .6rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem 1.4rem; box-shadow: var(--shadow);
+  }
+  .card h3 { font-size: 1.02rem; margin-bottom: .45rem; }
+  .card p { color: var(--muted); font-size: .93rem; }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.2rem; overflow-x: auto; font-size: .88rem; line-height: 1.55;
+  }
+  code { font-family: Consolas, "Cascadia Code", Menlo, monospace; }
+  p > code, li > code {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 5px; padding: .08em .35em; font-size: .88em;
+  }
+  .step { display: flex; gap: 1rem; margin-bottom: 1.4rem; align-items: flex-start; }
+  .step-num {
+    flex: 0 0 auto; width: 1.9em; height: 1.9em; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+    margin-top: .15em;
+  }
+  .step > div { min-width: 0; flex: 1; }
+  .step pre { margin-top: .55rem; }
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: .88rem; text-align: center;
+  }
+  footer a { color: var(--accent); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="zhuyin-badge">ㄅㄆㄇㄈ</div>
+    <h1>Bopomofo Captcha</h1>
+    <p class="tagline">
+      為台灣使用者打造的 Laravel 驗證碼套件 — 用<strong>注音符號</strong>取代英數字，
+      使用者用注音輸入法把看到的符號打回去就完成驗證。<br>
+      A Laravel CAPTCHA that renders Taiwan Bopomofo (Zhuyin) glyphs instead of Latin characters.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/QuenHengLee/bopomofo-captcha">GitHub Repo</a>
+      <a class="btn" href="https://packagist.org/packages/hengineer/bopomofo-captcha">Packagist</a>
+      <a class="btn" href="https://github.com/QuenHengLee/bopomofo-captcha/blob/main/docs/API.md">API 文件</a>
+      <a class="btn" href="https://github.com/QuenHengLee/bopomofo-captcha-laravel-demo">Demo 專案</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>實際樣張 <span class="en">Live samples</span></h2>
+    <div class="samples">
+      <figure><img src="images/sample1.png" alt="注音驗證碼範例 1" width="200" height="70"><figcaption>default profile</figcaption></figure>
+      <figure><img src="images/sample2.png" alt="注音驗證碼範例 2" width="200" height="70"><figcaption>default profile</figcaption></figure>
+      <figure><img src="images/sample3.png" alt="注音驗證碼範例 3" width="200" height="70"><figcaption>default profile</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>特色 <span class="en">Features</span></h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🇹🇼 在地化驗證</h3>
+        <p>從 37 個注音符號（聲母＋韻母）隨機出題，對機器人更陌生、對台灣使用者零負擔。</p>
+      </div>
+      <div class="card">
+        <h3>🔀 兩種模式</h3>
+        <p>傳統 Session 模式，以及給 SPA / 行動端的無狀態 API 模式（JSON key + base64 圖片）。</p>
+      </div>
+      <div class="card">
+        <h3>🛡️ 安全設計</h3>
+        <p>答案 bcrypt 雜湊、單次使用即銷毀、<code>check_api()</code> 時序洩漏防護、路由級 throttle。</p>
+      </div>
+      <div class="card">
+        <h3>🎨 四組 Profile</h3>
+        <p><code>default</code>、<code>flat</code>、<code>mini</code>、<code>inverse</code>，尺寸、干擾線、模糊、反相等參數皆可調。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>快速開始 <span class="en">Quick start</span></h2>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        安裝套件（PHP 8.1+，Laravel 10 / 11 / 12）：
+        <pre><code>composer require hengineer/bopomofo-captcha</code></pre>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        在 Blade 表單裡放上驗證碼：
+        <pre><code>{!! bopomofo_captcha_img() !!}
+&lt;input name="captcha" placeholder="請用注音輸入法輸入上方符號"&gt;</code></pre>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        在 Controller 驗證：
+        <pre><code>$request-&gt;validate([
+    'captcha' =&gt; 'required|bopomofo_captcha',
+]);</code></pre>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        SPA / 行動端改用無狀態 API 模式：
+        <pre><code>GET /bopomofo-captcha/api/default
+→ { "key": "bopomofo_captcha_xxx", "img": "data:image/png;base64,…" }
+
+$request-&gt;validate([
+    'captcha' =&gt; 'required|bopomofo_captcha_api:' . $request-&gt;input('key'),
+]);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      MIT License · 改寫自 <a href="https://github.com/mewebstudio/captcha">mews/captcha</a> ·
+      字型 <a href="https://fonts.google.com/noto/specimen/Noto+Sans+TC">Noto Sans TC</a>（SIL OFL 1.1）<br>
+      Maintained by <a href="https://github.com/QuenHengLee">@QuenHengLee</a>
+    </p>
+  </footer>
+</main>
+</body>
+</html>
